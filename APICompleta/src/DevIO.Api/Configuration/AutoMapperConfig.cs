@@ -10,7 +10,11 @@ namespace DevIO.Api.Configuration
         {
             CreateMap<Fornecedor, FornecedorViewModel>().ReverseMap();
             CreateMap<Endereco, EnderecoViewModel>().ReverseMap();
-            CreateMap<Produto, ProdutoViewModel>().ReverseMap();
+            CreateMap<ProdutoViewModel, Produto>();
+
+            CreateMap<Produto, ProdutoViewModel>()
+                .ForMember(destinationMember: dest => dest.NomeFornecedor,
+                           memberOptions: opt => opt.MapFrom(src => src.Fornecedor.Nome));
         }
     }
 }
