@@ -6,3 +6,4 @@
 *.zip
 /APICompleta/src/DevIO.Api/obj/Debug/netcoreapp2.2
 *.user
+/.vs
