@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/APICompleta/.vs/APICompleta/v16/Server/sqlite3
+*.zip
+/APICompleta/src/DevIO.Api/obj/Debug/netcoreapp2.2
+*.user
