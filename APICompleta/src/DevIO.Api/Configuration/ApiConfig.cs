@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevIO.Api.Configuration
 {
@@ -21,10 +17,18 @@ namespace DevIO.Api.Configuration
 
             services.AddCors(options =>
             {
-                options.AddPolicy("Development", builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                options.AddPolicy("Development", builder =>
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials());
+
+                options.AddPolicy("Production", builder =>
+                builder.WithMethods("GET", "POST")
+                       //.WithOrigins("http://localhost")
+                       .SetIsOriginAllowedToAllowWildcardSubdomains()
+                       //.WithHeaders(HeaderNames.ContentType, "x-custom-header")                       
+                       .AllowAnyHeader());
             });
 
             return services;
@@ -32,7 +36,6 @@ namespace DevIO.Api.Configuration
 
         public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
         {
-            app.UseCors("Development");
             app.UseHttpsRedirection();
             app.UseMvc();
 
