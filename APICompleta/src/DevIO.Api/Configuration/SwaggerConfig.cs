@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using System.Collections.Generic;
 
 namespace DevIO.Api.Configuration
 {
@@ -15,6 +16,21 @@ namespace DevIO.Api.Configuration
             services.AddSwaggerGen(c =>
             {
                 c.OperationFilter<SwaggerDefaultValues>();
+
+                var security = new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer ", new string[] { } }
+                };
+
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "Insira o token JWT desta maneira: Bearer {seu token}", 
+                    Name = "Authorization", 
+                    In = "header", 
+                    Type = "apiKey"
+                });
+
+                c.AddSecurityRequirement(security);
             });
 
             return services;
