@@ -16,9 +16,20 @@ namespace DevIO.Api
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostEnvironment)
+        public Startup(IHostingEnvironment hostEnvironment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            if (hostEnvironment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
             Environment.CurrentDirectory = hostEnvironment.ContentRootPath;
         }
 
